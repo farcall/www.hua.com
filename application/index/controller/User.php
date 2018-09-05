@@ -71,16 +71,15 @@ class User extends Frontend
         if ($this->auth->id)
             $this->success(__('You\'ve logged in, do not login again'), $url);
         if ($this->request->isPost()) {
-            $username = $this->request->post('username');
+            $mobile = $this->request->post('mobile');
+            $username = $mobile;
             $password = $this->request->post('password');
-            $email = $this->request->post('email');
-            $mobile = $this->request->post('mobile', '');
             $captcha = $this->request->post('captcha');
             $token = $this->request->post('__token__');
             $rule = [
-                'username'  => 'require|length:3,30',
+                //'username'  => 'require|length:3,30',
+                'username'  => 'regex:/^1\d{10}$/',
                 'password'  => 'require|length:6,30',
-                'email'     => 'require|email',
                 'mobile'    => 'regex:/^1\d{10}$/',
                 'captcha'   => 'require|captcha',
                 '__token__' => 'token',
@@ -93,13 +92,11 @@ class User extends Frontend
                 'password.length'  => 'Password must be 6 to 30 characters',
                 'captcha.require'  => 'Captcha can not be empty',
                 'captcha.captcha'  => 'Captcha is incorrect',
-                'email'            => 'Email is incorrect',
                 'mobile'           => 'Mobile is incorrect',
             ];
             $data = [
                 'username'  => $username,
                 'password'  => $password,
-                'email'     => $email,
                 'mobile'    => $mobile,
                 'captcha'   => $captcha,
                 '__token__' => $token,
@@ -109,7 +106,7 @@ class User extends Frontend
             if (!$result) {
                 $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
             }
-            if ($this->auth->register($username, $password, $email, $mobile)) {
+            if ($this->auth->register($username, $password, '', $mobile)) {
                 $synchtml = '';
                 ////////////////同步到Ucenter////////////////
                 if (defined('UC_STATUS') && UC_STATUS) {
@@ -270,4 +267,6 @@ class User extends Frontend
         return $this->view->fetch();
     }
 
+    
+    
 }
