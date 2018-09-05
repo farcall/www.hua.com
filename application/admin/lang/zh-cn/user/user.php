@@ -30,4 +30,15 @@ return [
     'Token'          => 'Token',
     'Status'         => '状态',
     'Leave password blank if dont want to change' => '不修改密码请留空',
+//    一下为新增
+    'Type'          => '会员类型',
+    'Money' => '余额',
+    'Commission' => '佣金',
+    'Fuid1' => '一级推荐人',
+    'Fuid2' => '二级推荐人',
+    'Fuid3' => '三级推荐人',
+    
+    'Free' => '免费',
+    'Vip' => 'VIP'
+    
 ];
